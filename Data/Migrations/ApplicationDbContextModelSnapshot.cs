@@ -52,7 +52,7 @@ namespace AribTask.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Department");
                 });
 
             modelBuilder.Entity("AribTask.Models.Employee", b =>
@@ -98,7 +98,7 @@ namespace AribTask.Data.Migrations
 
                     b.HasIndex("ManagerId");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employee");
                 });
 
             modelBuilder.Entity("AribTask.Models.EmployeeTask", b =>
@@ -141,7 +141,7 @@ namespace AribTask.Data.Migrations
 
                     b.HasIndex("ManagerId");
 
-                    b.ToTable("EmployeeTasks");
+                    b.ToTable("EmployeeTask");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
