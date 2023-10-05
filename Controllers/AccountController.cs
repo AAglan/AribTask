@@ -1,4 +1,4 @@
-﻿using AribTask.ViewModel;
+﻿using AribTask.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 namespace AribTask.Controllers
 {
     public class AccountController : Controller
@@ -27,27 +28,27 @@ namespace AribTask.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //[AllowAnonymous]
-        //public async Task<ActionResult> Register(RegisterViewModel RegisterViewModel)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var user = new IdentityUser { UserName = RegisterViewModel.Username, Email = RegisterViewModel.Email };
-        //       var result= await userManager.CreateAsync(user, RegisterViewModel.Pwd);
-        //        if (result.Succeeded)
-        //        {
-        //            await signInManager.SignInAsync(user,isPersistent:false);
-        //            return RedirectToAction("Index","Home");
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult> Register(RegisterViewModel RegisterViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new IdentityUser { UserName = RegisterViewModel.Username, Email = RegisterViewModel.Email };
+               var result= await userManager.CreateAsync(user, RegisterViewModel.Pwd);
+                if (result.Succeeded)
+                {
+                    await signInManager.SignInAsync(user,isPersistent:false);
+                    return RedirectToAction("Index","Home");
                  
-        //        }
-        //        foreach (var item in result.Errors)
-        //        {
-        //            ModelState.AddModelError("", item.Description);
-        //        }
-        //    }
-        //    return View();
-        //}
+                }
+                foreach (var item in result.Errors)
+                {
+                    ModelState.AddModelError("", item.Description);
+                }
+            }
+            return View();
+        }
         [HttpGet]
         [AllowAnonymous]
         public ActionResult Login()

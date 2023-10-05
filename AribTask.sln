@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.33130.400
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AribTask", "AribTask.csproj", "{062CE34F-4393-4BE9-8631-C809A49D83EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AribTask", "AribTask.csproj", "{3A1F4FB6-EF27-436F-A897-9AE3AA45BABE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{062CE34F-4393-4BE9-8631-C809A49D83EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{062CE34F-4393-4BE9-8631-C809A49D83EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{062CE34F-4393-4BE9-8631-C809A49D83EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{062CE34F-4393-4BE9-8631-C809A49D83EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A1F4FB6-EF27-436F-A897-9AE3AA45BABE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A1F4FB6-EF27-436F-A897-9AE3AA45BABE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A1F4FB6-EF27-436F-A897-9AE3AA45BABE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A1F4FB6-EF27-436F-A897-9AE3AA45BABE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {88ACEE53-DCCB-4A57-A7EA-B7925A016E1C}
+		SolutionGuid = {EC1E5CA8-99C1-483D-848E-D85B92A0C2FE}
 	EndGlobalSection
 EndGlobal

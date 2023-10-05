@@ -1,4 +1,11 @@
 ﻿<!DOCTYPE html>
+
+
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<IdentityUser> signInManager;
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using AribTask.Constants
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -21,11 +28,35 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
+                        @if (User.IsInRole("Admin"))
+                        {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                           <a class="nav-link text-dark" asp-area="Admin" asp-controller="Roles" asp-action="Settings">Settings</a>
                         </li>
+                        }
                     </ul>
-                    <partial name="_LoginPartial" />
+
+                    <ul class="navbar-nav ml-auto">
+                        @if (signInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item">
+                                <form method="post" asp-action="LogOut" asp-controller="Account">
+
+                                    <button type="submit" class="nav-link btn btn-link py-0" style="width:auto;">Log Out @User.Identity.Name</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Log In</a>
+                            </li>
+                        }
+
+                    </ul>
                 </div>
             </div>
         </nav>
@@ -38,7 +69,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2023 - AribTask - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            AribTask
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
