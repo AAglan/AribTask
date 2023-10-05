@@ -19,7 +19,6 @@
   <ItemGroup>
     <Folder Include="IService\" />
     <Folder Include="Validation\" />
-    <Folder Include="Service\" />
   </ItemGroup>
 
 </Project>
