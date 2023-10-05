@@ -30,6 +30,7 @@
     <Compile Remove="Controllers\AdminController.cs" />
     <Compile Remove="Controllers\PermissionController.cs" />
     <Compile Remove="Controllers\ProductController.cs" />
+    <Compile Remove="Data\ApplicationDbContextxx.cs" />
   </ItemGroup>
 
   <ItemGroup>

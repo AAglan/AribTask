@@ -16,7 +16,7 @@ namespace AribTask.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.17")
+                .HasAnnotation("ProductVersion", "5.0.16")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("AribTask.Models.Department", b =>
@@ -52,7 +52,7 @@ namespace AribTask.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Department");
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("AribTask.Models.Employee", b =>
@@ -80,7 +80,7 @@ namespace AribTask.Data.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ManagerId")
+                    b.Property<int?>("ManagerId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Salary")
@@ -98,7 +98,7 @@ namespace AribTask.Data.Migrations
 
                     b.HasIndex("ManagerId");
 
-                    b.ToTable("Employee");
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("AribTask.Models.EmployeeTask", b =>
@@ -120,6 +120,9 @@ namespace AribTask.Data.Migrations
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("EmployeeId1")
+                        .HasColumnType("int");
+
                     b.Property<int>("ManagerId")
                         .HasColumnType("int");
 
@@ -139,9 +142,11 @@ namespace AribTask.Data.Migrations
 
                     b.HasIndex("EmployeeId");
 
+                    b.HasIndex("EmployeeId1");
+
                     b.HasIndex("ManagerId");
 
-                    b.ToTable("EmployeeTask");
+                    b.ToTable("EmployeeTasks");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -350,9 +355,7 @@ namespace AribTask.Data.Migrations
 
                     b.HasOne("AribTask.Models.Employee", "Manager")
                         .WithMany()
-                        .HasForeignKey("ManagerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ManagerId");
 
                     b.Navigation("Department");
 
@@ -364,13 +367,17 @@ namespace AribTask.Data.Migrations
                     b.HasOne("AribTask.Models.Employee", "Employee")
                         .WithMany()
                         .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.HasOne("AribTask.Models.Employee", null)
+                        .WithMany("EmployeeTasks")
+                        .HasForeignKey("EmployeeId1");
 
                     b.HasOne("AribTask.Models.Employee", "Manager")
                         .WithMany()
                         .HasForeignKey("ManagerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Employee");
@@ -432,6 +439,11 @@ namespace AribTask.Data.Migrations
             modelBuilder.Entity("AribTask.Models.Department", b =>
                 {
                     b.Navigation("Managers");
+                });
+
+            modelBuilder.Entity("AribTask.Models.Employee", b =>
+                {
+                    b.Navigation("EmployeeTasks");
                 });
 #pragma warning restore 612, 618
         }

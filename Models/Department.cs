@@ -6,15 +6,21 @@ using System.Threading.Tasks;
 
 namespace AribTask.Models
 {
-    public class Department:BaseEntity
+    public class Department : BaseEntity
     {
         public string Name { get; set; }
+
         public decimal DepartmentCost { get; set; }
+
         public decimal EmployeesCount { get; set; }
-        [ForeignKey("Employee")]
+
+        [ForeignKey("Manager")]
         public int ManagerId { get; set; }
         public virtual ICollection<Employee> Managers { get; set; }
 
-       
+
     }
+
+
+
 }

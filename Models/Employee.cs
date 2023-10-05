@@ -12,15 +12,18 @@ namespace AribTask.Models
         public string LastName { get; set; }
         public decimal Salary { get; set; }
         public string ImagePath { get; set; }
-       [ForeignKey("Manager")]
-        public int ManagerId { get; set; }
-       [ForeignKey("Department")]
-        public int DepartmentId { get; set; }
-        public virtual Employee Manager { get; set; }
-        public virtual Department Department { get; set; }
-        public Employee()
-        {
 
-        }
+        // Foreign key to represent the department the employee belongs to
+        [ForeignKey("Department")]
+        public int DepartmentId { get; set; }
+        public virtual Department Department { get; set; }
+
+        // Foreign key to represent the manager of the employee
+        [ForeignKey("Manager")]
+        public int? ManagerId { get; set; }
+        public virtual Employee Manager { get; set; }
+
+        public ICollection<EmployeeTask> EmployeeTasks { get; set; }
+
     }
 }
