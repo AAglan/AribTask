@@ -12,7 +12,7 @@ namespace AribTask.Models
         public string LastName { get; set; }
         public decimal Salary { get; set; }
         public string ImagePath { get; set; }
-       [ForeignKey("Employee")]
+       [ForeignKey("Manager")]
         public int ManagerId { get; set; }
        [ForeignKey("Department")]
         public int DepartmentId { get; set; }

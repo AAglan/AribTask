@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ASP.NETCore5._0AuthenticationExample.ViewModels
+namespace AribTask.ViewModel
 {
-    public class LoginViewModel
+  public class LoginViewModel
     {
 
         [Required(ErrorMessage = "Please Enter Email..")]

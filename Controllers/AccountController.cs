@@ -1,4 +1,4 @@
-﻿using ASP.NETCore5._0AuthenticationExample.ViewModels;
+﻿using AribTask.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
