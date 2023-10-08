@@ -19,11 +19,13 @@ namespace AribTask.Controllers
 		private readonly ApplicationDbContext _context;
 		private readonly IBaseRepo<Employee> _EmployeeRepo;
 		private readonly IMapper _Mapper;
-		public EmployeeController(ApplicationDbContext context, IBaseRepo<Employee> employeeRepo, IMapper mapper)
+		private readonly IBaseRepo<Department> _DepartmentRepo;
+		public EmployeeController(ApplicationDbContext context, IBaseRepo<Employee> employeeRepo, IMapper mapper, IBaseRepo<Department> DepartmentRepo)
 		{
 			_context = context;
 			_EmployeeRepo = employeeRepo;
 			_Mapper = mapper;
+			_DepartmentRepo = DepartmentRepo;
 		}
 
 
@@ -61,6 +63,10 @@ namespace AribTask.Controllers
 		// GET: Employee/Create
 		public IActionResult Create()
 		{
+			var employees = _EmployeeRepo.GetAll();
+			var departments = _DepartmentRepo.GetAll();
+			ViewBag.ManagerId = new SelectList(employees, "Id", "FirstName",null);
+			ViewBag.DepartmentId = new SelectList(departments, "Id", "Name");
 			return View();
 		}
 		// POST: Employee/Create
@@ -74,15 +80,9 @@ namespace AribTask.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					if (!_EmployeeRepo.IsExistRecord(b => b.Code == employeeDto.Code))
-					{
-
 						Employee Employee = _Mapper.Map<Employee>(employeeDto);
 						Employee.SetBasicData(CRUD_OperationType.Create);
-
 						_EmployeeRepo.Add(Employee);
-
-					}
 				}
 
 			}

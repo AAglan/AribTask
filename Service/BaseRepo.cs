@@ -75,16 +75,16 @@ namespace AribTask.Service
       }
       return LastCode;
     }
-    public bool IsExistRecord(Expression<Func<T, bool>> condetion = null)
-    {
-      bool IsExist = false;
-      IQueryable<T> query = _context.Set<T>();
-      var Record = query.Where(condetion).FirstOrDefault();
-      if (Record != null)
-      {
-        IsExist = true;
-      }
-      return IsExist;
-    }
+    //public bool IsExistRecord(Expression<Func<T, bool>> condetion = null)
+    //{
+    //  bool IsExist = false;
+    //  IQueryable<T> query = _context.Set<T>();
+    //  var Record = query.Where(condetion).FirstOrDefault();
+    //  if (Record != null)
+    //  {
+    //    IsExist = true;
+    //  }
+    //  return IsExist;
+    //}
   }
 }

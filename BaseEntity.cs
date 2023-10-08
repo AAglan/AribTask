@@ -10,8 +10,7 @@ namespace AribTask
 	{
 		[Key]
 		public int Id { get; set; }
-		[Required]
-		public int Code { get; set; }
+	
 		public DateTime? CreationDate { get; set; }
 		public DateTime? UpdatedDate { get; set; }
 		public int? CreationUserId { get; set; }

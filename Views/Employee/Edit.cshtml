@@ -34,7 +34,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="ManagerId" class="control-label"></label>
-                <input asp-for="ManagerId" class="form-control" />
+                <select asp-for="ManagerId" class="form-control" asp-items="ViewBag.ManagerId"></select>
                 <span asp-validation-for="ManagerId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -62,10 +62,10 @@
                 <label asp-for="UpdatedUserId" class="control-label"></label>
                 <input asp-for="UpdatedUserId" class="form-control" />
                 <span asp-validation-for="UpdatedUserId" class="text-danger"></span>
-            </div>*@
+            </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
+            </div>*@
         </form>
     </div>
 </div>

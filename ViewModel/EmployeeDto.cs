@@ -9,13 +9,17 @@ namespace AribTask.ViewModel
 {
 	public class EmployeeDto:BasicModel
 	{
+ 
     public string FirstName { get; set; }
     public string LastName { get; set; }
+    public decimal Salary { get; set; }
     [NotMapped]
     public string FullName { get { return FirstName + " " + LastName; } }
-    public decimal Salary { get; set; }
     public string ImagePath { get; set; }
-    public int ManagerId { get; set; }
+    public int? ManagerId { get; set; }
     public int DepartmentId { get; set; }
+
+    public EmployeeDto Manager { get; set; }
+    public ICollection<EmployeeTaskDto> EmployeeTasks { get; set; }
   }
 }

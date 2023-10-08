@@ -10,6 +10,6 @@ namespace AribTask.ViewModel
 		public string Name { get; set; }
 		public decimal DepartmentCost { get; set; }
 		public decimal EmployeesCount { get; set; }
-		public int ManagerId { get; set; }
+		public ICollection<EmployeeDto> Employees { get; set; }
 	}
 }

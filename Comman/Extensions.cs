@@ -24,20 +24,20 @@ namespace AribTask.Comman
         }
 
         
-        public static int GetLastCode(this BaseEntity entity, IBaseRepo<BaseEntity> repo)
-        {
-            int LastCode = 0;
-            var code = repo.GetAll().OrderBy(o=>o.Code).LastOrDefault();
-            if (code != null)
-            {
-                LastCode = code.Code + 1;
-            }
-            else
-            {
-                LastCode = 1;
-            }
-            return LastCode;
-        }
+        //public static int GetLastCode(this BaseEntity entity, IBaseRepo<BaseEntity> repo)
+        //{
+        //    int LastCode = 0;
+        //    var code = repo.GetAll().OrderBy(o=>o.Code).LastOrDefault();
+        //    if (code != null)
+        //    {
+        //        LastCode = code.Code + 1;
+        //    }
+        //    else
+        //    {
+        //        LastCode = 1;
+        //    }
+        //    return LastCode;
+        //}
         public static bool IsExistCode(this BaseEntity entity, IBaseRepo<BaseEntity> repo)
         {
             bool IsExist = false;

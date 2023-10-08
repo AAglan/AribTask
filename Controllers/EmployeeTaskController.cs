@@ -81,14 +81,13 @@ namespace AribTask.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					if (!_EmployeeTaskRepo.IsExistRecord(b => b.Code == employeeTaskDto.Code))
-					{
+					
 						EmployeeTask employeeTask = _Mapper.Map<EmployeeTask>(employeeTaskDto);
 						employeeTask.SetBasicData(CRUD_OperationType.Create);
 
 						_EmployeeTaskRepo.Add(employeeTask);
 
-				}
+				
 				}
 
 			}

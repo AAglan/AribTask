@@ -15,6 +15,6 @@ namespace AribTask.Service
 		int Delete(T entity);
 		List<T> GetAllWithInclude(string[] includes = null);
 		int GetLastCode(Expression<Func<T, object>> orderBy = null);
-		bool IsExistRecord(Expression<Func<T, bool>> condetion = null);
+		//bool IsExistRecord(Expression<Func<T, bool>> condetion = null);
 	}
 }

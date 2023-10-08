@@ -74,8 +74,7 @@ namespace AribTask.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					if (!_DepartmentRepo.IsExistRecord(b => b.Code == departmentDto.Code))
-					{
+					
 
 						Department Department = _Mapper.Map<Department>(departmentDto);
 
@@ -83,7 +82,7 @@ namespace AribTask.Controllers
 
 						_DepartmentRepo.Add(Department);
 
-				}
+				
 				}
 
 			}
