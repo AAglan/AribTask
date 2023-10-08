@@ -10,6 +10,9 @@ namespace AribTask.ViewModel
 	{
     [Key]
     public int Id { get; set; }
+    [Display(Name = "Code")]
+    [Required(ErrorMessage = "CodeRequired")]
+    public int Code { get; set; }
     public DateTime? CreationDate { get; set; }
     public DateTime? UpdatedDate { get; set; }
     public int? CreationUserId { get; set; }

@@ -1,6 +1,7 @@
 ﻿using AribTask.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using AribTask.ViewModel;
 
 namespace AribTask.Data
 {
@@ -30,6 +31,7 @@ namespace AribTask.Data
                 .HasForeignKey(e => e.ManagerId)
                 .OnDelete(DeleteBehavior.NoAction);
         }
+       
 
 
     }

@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace AribTask
 {
-    public class BaseEntity
-    {
-        [Key]
-        public int Id { get; set; }
-        public DateTime? CreationDate { get; set; }
-        public DateTime? UpdatedDate { get; set; }
-        public int? CreationUserId { get; set; }
-        public int? UpdatedUserId { get; set; }
-    }
+	public class BaseEntity
+	{
+		[Key]
+		public int Id { get; set; }
+		[Required]
+		public int Code { get; set; }
+		public DateTime? CreationDate { get; set; }
+		public DateTime? UpdatedDate { get; set; }
+		public int? CreationUserId { get; set; }
+		public int? UpdatedUserId { get; set; }
+	}
 }

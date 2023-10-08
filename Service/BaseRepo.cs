@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace AribTask.Service
@@ -20,7 +21,7 @@ namespace AribTask.Service
       _context.SaveChanges();
     }
 
-    public int Delete(T entity)
+      public int Delete(T entity)
     {
       _context.Set<T>().Remove(entity);
       return _context.SaveChanges();
@@ -58,6 +59,32 @@ namespace AribTask.Service
       _context.Set<T>().Update(entity);
       _context.SaveChanges();
 
+    }
+    public int GetLastCode(Expression<Func<T, object>> orderBy = null)
+    {
+      int LastCode = 0;
+      IQueryable<T> query = _context.Set<T>();
+      var LastRecord = query.OrderBy(orderBy).LastOrDefault();
+      if (LastRecord != null)
+      {
+        LastCode = (int)LastRecord.GetType().GetProperty("Code").GetValue(LastRecord) + 1;
+      }
+      else
+      {
+        LastCode = 1;
+      }
+      return LastCode;
+    }
+    public bool IsExistRecord(Expression<Func<T, bool>> condetion = null)
+    {
+      bool IsExist = false;
+      IQueryable<T> query = _context.Set<T>();
+      var Record = query.Where(condetion).FirstOrDefault();
+      if (Record != null)
+      {
+        IsExist = true;
+      }
+      return IsExist;
     }
   }
 }

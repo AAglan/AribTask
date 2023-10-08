@@ -22,5 +22,12 @@ namespace AribTask.Comman
         Department,
         EmployeeTask,
     }
+  public enum CRUD_OperationType
+  {
+    Create,
+    Read,
+    Update,
+    Delete
+  }
 
 }

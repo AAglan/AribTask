@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace AribTask.Service
@@ -13,5 +14,7 @@ namespace AribTask.Service
 		void Update(T entity);
 		int Delete(T entity);
 		List<T> GetAllWithInclude(string[] includes = null);
+		int GetLastCode(Expression<Func<T, object>> orderBy = null);
+		bool IsExistRecord(Expression<Func<T, bool>> condetion = null);
 	}
 }
