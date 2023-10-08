@@ -85,12 +85,12 @@ namespace AribTask
 			{
 				endpoints.MapControllerRoute(
 									name: "admin",
-									pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+									pattern: "{area:exists}/{controller=EmployeeTask}/{action=Index}/{id?}"
 							);
 
 				endpoints.MapControllerRoute(
 									name: "default",
-									pattern: "{controller=Home}/{action=Index}/{id?}"
+									pattern: "{controller=Account}/{action=Login}/{id?}"
 							);
 			});
 

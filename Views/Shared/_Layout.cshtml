@@ -18,7 +18,6 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
 					<div class="container">
-						<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AribTask</a>
 						<a class="navbar-brand" asp-area="" asp-controller="Employee" asp-action="Index">Employee</a>
 						<a class="navbar-brand" asp-area="" asp-controller="Department" asp-action="Index">Department</a>
 						<a class="navbar-brand" asp-area="" asp-controller="EmployeeTask" asp-action="Index">task</a>
@@ -28,9 +27,7 @@
 						</button>
 						<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
 							<ul class="navbar-nav flex-grow-1">
-								<li class="nav-item">
-									<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-								</li>
+								
 								@if (User.IsInRole("Admin"))
 								{
 									<li class="nav-item">

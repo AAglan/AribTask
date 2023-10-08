@@ -13,9 +13,12 @@ using AutoMapper;
 using AribTask.Comman;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace AribTask.Controllers
 {
+	[Authorize(Roles = "Admin")]
 	public class EmployeeController : Controller
 	{
 		private readonly ApplicationDbContext _context;
@@ -24,13 +27,18 @@ namespace AribTask.Controllers
 		private readonly IBaseRepo<Department> _DepartmentRepo;
 		private readonly IWebHostEnvironment webHostEnvironment;
 
-		public EmployeeController(ApplicationDbContext context, IBaseRepo<Employee> employeeRepo, IMapper mapper, IBaseRepo<Department> DepartmentRepo, IWebHostEnvironment hostEnvironment)
+		private readonly UserManager<IdentityUser> userManager;
+
+
+
+		public EmployeeController(ApplicationDbContext context, IBaseRepo<Employee> employeeRepo, IMapper mapper, IBaseRepo<Department> DepartmentRepo, IWebHostEnvironment hostEnvironment, UserManager<IdentityUser> userManager)
 		{
 			_context = context;
 			_EmployeeRepo = employeeRepo;
 			_Mapper = mapper;
 			_DepartmentRepo = DepartmentRepo;
 			webHostEnvironment = hostEnvironment;
+			this.userManager = userManager;
 		}
 
 
@@ -83,7 +91,7 @@ namespace AribTask.Controllers
 		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public IActionResult Create( EmployeeDto employeeDto)
+		public async Task<IActionResult> Create( EmployeeDto employeeDto)
 		{
 			try
 			{
@@ -94,6 +102,9 @@ namespace AribTask.Controllers
 					employee.ImageFile = uniqueFileName;
 					employee.ImageFileName = uniqueFileName;
 					employee.SetBasicData(CRUD_OperationType.Create);
+
+					var user = new IdentityUser { UserName = employeeDto.UserName, Email = employeeDto.Email };
+					var result = await userManager.CreateAsync(user, employeeDto.Password);
 					_EmployeeRepo.Add(employee);
 				}
 			}

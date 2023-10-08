@@ -11,9 +11,11 @@ using AribTask.Service;
 using AribTask.Models;
 using AutoMapper;
 using AribTask.Comman;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AribTask.Controllers
 {
+	[Authorize(Roles = "Admin")]
 	public class DepartmentController : Controller
 	{
 		private readonly ApplicationDbContext _context;
