@@ -13,7 +13,7 @@ namespace AribTask.Comman
     public MappingProfile()
     {
 
-			CreateMap<Employee, EmployeeDto>().ReverseMap();
+			CreateMap<Employee, EmployeeDto>().ForMember(dest => dest.ImageFile, opt => opt.Ignore()).ReverseMap();
 			CreateMap<Department, DepartmentDto>().ReverseMap();
 			CreateMap<EmployeeTask, EmployeeTaskDto>().ReverseMap();
       CreateMap<EmployeesDepartment, EmployeesDepartmentDto>()

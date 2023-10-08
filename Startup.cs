@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 
 //using AribTask.Permission;
@@ -16,11 +17,13 @@ namespace AribTask
 {
 	public class Startup
 	{
-		public Startup(IConfiguration configuration)
+		private readonly IWebHostEnvironment _webHostEnvironment;
+
+		public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
 		{
 			Configuration = configuration;
+			_webHostEnvironment = webHostEnvironment;
 		}
-
 		public IConfiguration Configuration { get; }
 
 		// This method gets called by the runtime. Use this method to add services to the container.
@@ -41,6 +44,7 @@ namespace AribTask
 				options.Password.RequiredLength = 4;
 			})
 			.AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+			services.AddSingleton<IWebHostEnvironment>(_webHostEnvironment);
 			services.AddScoped(typeof(IBaseRepo<>), typeof(BaseRepo<>));
 			services.AddAutoMapper(typeof(Startup));
 
@@ -68,6 +72,15 @@ namespace AribTask
 			app.UseAuthentication();
 			app.UseAuthorization();
 
+
+			// Other middleware and configuration
+
+			// Set the web root path
+			app.UseStaticFiles(new StaticFileOptions
+			{
+				FileProvider = new PhysicalFileProvider(_webHostEnvironment.WebRootPath),
+				RequestPath = "/images" // This should match the path you are using in Path.Combine
+			});
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllerRoute(

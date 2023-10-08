@@ -11,6 +11,8 @@ using AribTask.Service;
 using AribTask.Models;
 using AutoMapper;
 using AribTask.Comman;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace AribTask.Controllers
 {
@@ -20,12 +22,15 @@ namespace AribTask.Controllers
 		private readonly IBaseRepo<Employee> _EmployeeRepo;
 		private readonly IMapper _Mapper;
 		private readonly IBaseRepo<Department> _DepartmentRepo;
-		public EmployeeController(ApplicationDbContext context, IBaseRepo<Employee> employeeRepo, IMapper mapper, IBaseRepo<Department> DepartmentRepo)
+		private readonly IWebHostEnvironment webHostEnvironment;
+
+		public EmployeeController(ApplicationDbContext context, IBaseRepo<Employee> employeeRepo, IMapper mapper, IBaseRepo<Department> DepartmentRepo, IWebHostEnvironment hostEnvironment)
 		{
 			_context = context;
 			_EmployeeRepo = employeeRepo;
 			_Mapper = mapper;
 			_DepartmentRepo = DepartmentRepo;
+			webHostEnvironment = hostEnvironment;
 		}
 
 
@@ -36,6 +41,10 @@ namespace AribTask.Controllers
 			{
 				var EmpTasks = _EmployeeRepo.GetAll();
 				var Model = _Mapper.Map<List<EmployeeDto>>(EmpTasks);
+				foreach (var employeeDto in Model)
+				{
+					employeeDto.ImageFileName = GetImageFilePath(employeeDto);
+				}
 				return View(Model);
 			}
 			catch (Exception)
@@ -74,17 +83,19 @@ namespace AribTask.Controllers
 		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public IActionResult Create([Bind("FirstName,LastName,Salary,ImagePath,ManagerId,DepartmentId,Id,CreationDate,UpdatedDate,CreationUserId,UpdatedUserId")] EmployeeDto employeeDto)
+		public IActionResult Create( EmployeeDto employeeDto)
 		{
 			try
 			{
 				if (ModelState.IsValid)
 				{
-						Employee Employee = _Mapper.Map<Employee>(employeeDto);
-						Employee.SetBasicData(CRUD_OperationType.Create);
-						_EmployeeRepo.Add(Employee);
+					string uniqueFileName = UploadedFile(employeeDto);
+					Employee employee = _Mapper.Map<Employee>(employeeDto);
+					employee.ImageFile = uniqueFileName;
+					employee.ImageFileName = uniqueFileName;
+					employee.SetBasicData(CRUD_OperationType.Create);
+					_EmployeeRepo.Add(employee);
 				}
-
 			}
 			catch (Exception ex)
 			{
@@ -106,7 +117,12 @@ namespace AribTask.Controllers
 			{
 				return NotFound();
 			}
+			var employees = _EmployeeRepo.GetAll();
+			var departments = _DepartmentRepo.GetAll();
 			EmployeeDto Model = _Mapper.Map<EmployeeDto>(employee);
+			Model.ImageFileName=GetImageFilePath(Model);
+			ViewBag.ManagerId = new SelectList(employees, "Id", "FirstName", Model.ManagerId);
+			ViewBag.DepartmentId = new SelectList(departments, "Id", "Name", Model.DepartmentId);
 			return View(Model);
 
 		}
@@ -116,8 +132,8 @@ namespace AribTask.Controllers
 		// To protect from overposting attacks, enable the specific properties you want to bind to.
 		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public IActionResult Edit(int id, [Bind("FirstName,LastName,Salary,ImagePath,ManagerId,DepartmentId,Id,CreationDate,UpdatedDate,CreationUserId,UpdatedUserId")] EmployeeDto employeeDto)
+		[ValidateAntiForgeryToken] 
+		public IActionResult Edit(int id, EmployeeDto employeeDto)
 		{
 			if (id != employeeDto.Id)
 			{
@@ -129,7 +145,11 @@ namespace AribTask.Controllers
 			{
 				if (ModelState.IsValid)
 				{
+					string uniqueFileName = UploadedFile(employeeDto);
+					
 					Employee employee = _Mapper.Map<Employee>(employeeDto);
+					employee.ImageFile = uniqueFileName;
+					employee.ImageFileName = uniqueFileName;
 					employee.SetBasicData(CRUD_OperationType.Update);
 
 					_EmployeeRepo.Update(employee);
@@ -176,7 +196,37 @@ namespace AribTask.Controllers
 
 			return RedirectToAction(nameof(Index));
 		}
+		private string GetUniqueFileName(string fileName)
+		{
+			string uniqueFileName = Guid.NewGuid().ToString() + "_" + fileName;
+			return uniqueFileName;
+		}
+		private string UploadedFile(EmployeeDto model)
+		{
+			string uniqueFileName = null;
 
+			if (model.ImageFile != null)
+			{
+				string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
+				uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ImageFile.FileName;
+				string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+				using (var fileStream = new FileStream(filePath, FileMode.Create))
+				{
+					model.ImageFile.CopyTo(fileStream);
+				}
+			}
+			return uniqueFileName;
+		}
+		private string GetImageFilePath(EmployeeDto employeeDto)
+		{
+			if (!string.IsNullOrEmpty(employeeDto.ImageFileName))
+			{
+				string imagePath = Path.Combine("/images", employeeDto.ImageFileName);
+				return Url.Content(imagePath);
+			}
+
+			return null;
+		}
 		//private bool EmployeeDtoExists(int id)
 		//{
 		//	return _context.EmployeeDto.Any(e => e.Id == id);

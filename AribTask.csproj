@@ -54,7 +54,7 @@
 
   <ItemGroup>
     <Folder Include="Helpers\" />
-    <Folder Include="wwwroot\pic\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 </Project>

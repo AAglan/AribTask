@@ -44,7 +44,6 @@ namespace AribTask.Data
 					.OnDelete(DeleteBehavior.NoAction);
 
 		}
-		public DbSet<AribTask.ViewModel.EmployeeDto> EmployeeDto { get; set; }
 
 
 

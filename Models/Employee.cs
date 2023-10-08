@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -31,10 +32,10 @@ namespace AribTask.Models
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public decimal Salary { get; set; }
-    public string ImagePath { get; set; }
-
-    // Foreign key to represent the manager of the employee
-    public int? ManagerId { get; set; }
+    public string ImageFileName { get; set; } // Add a new property for the unique file name
+		public string ImageFile { get; set; }
+		// Foreign key to represent the manager of the employee
+		public int? ManagerId { get; set; }
     public virtual Employee Manager { get; set; }
 
     // Navigation property to represent the tasks assigned to the employee
