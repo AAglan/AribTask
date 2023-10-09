@@ -22,16 +22,14 @@ namespace AribTask.Controllers
 		private readonly IBaseRepo<Employee> _EmployeeRepo;
 		private readonly IMapper _Mapper;
 		private readonly UserManager<IdentityUser> userManager;
-		private readonly UserManager<IdentityUser> _userManager;
-
-		public EmployeeTaskController(ApplicationDbContext context, IBaseRepo<EmployeeTask> employeeTaskRepo, IMapper mapper, IBaseRepo<Employee> _EmployeeRepo, UserManager<IdentityUser> userManager, UserManager<IdentityUser> _userManager)
+		public EmployeeTaskController(ApplicationDbContext context, IBaseRepo<EmployeeTask> employeeTaskRepo, IMapper mapper, IBaseRepo<Employee> _EmployeeRepo, UserManager<IdentityUser> userManager)
 		{
 			_context = context;
 			_EmployeeTaskRepo = employeeTaskRepo;
 			_Mapper = mapper;
 			_EmployeeRepo = _EmployeeRepo;
 			userManager = userManager;
-			_userManager = _userManager;
+			
 		}
 
 		// GET: EmployeeTask
@@ -41,6 +39,16 @@ namespace AribTask.Controllers
 			{
 				var EmpTasks = _EmployeeTaskRepo.GetAll();
 				var Model = _Mapper.Map<List<EmployeeTaskDto>>(EmpTasks);
+				var Employees = _context.Employees.Include(e => e.Manager).ToList();
+				var currentUser = User.Identity.Name; // Get the username of the current user
+				var EmployeeTask = Employees.FirstOrDefault(x => x.UserName != null && x.UserName.Trim() == currentUser.Trim());
+				if (!EmployeeTask.IsManger)
+				{
+					Model = Model.Where(x => x.EmployeeId == EmployeeTask.Id).ToList();
+				}
+				else {
+					Model = Model.Where(x => x.ManagerId == EmployeeTask.Id).ToList();
+				}
 				return View(Model);
 			}
 			catch (Exception)
@@ -74,6 +82,9 @@ namespace AribTask.Controllers
 		// GET: EmployeeTask/Create
 		public IActionResult Create()
 		{
+		
+
+			
 			var Status = Enum.GetValues(typeof(Status))
 						.Cast<Status>()
 						.Select(g => new SelectListItem
@@ -82,11 +93,20 @@ namespace AribTask.Controllers
 							Value = ((int)g).ToString()
 						})
 						.ToList();
-		
+	
 			ViewBag.StatesList = Status;
-			
+			var employees = _context.Employees.ToList();
+			var currentUser = User.Identity.Name; // Get the username of the current user
+			var EmployeeTask  = employees.FirstOrDefault(x =>x.UserName!=null&& x.UserName.Trim() == currentUser.Trim());
+			ViewBag.ShowManger = false;
 
-		
+			if (EmployeeTask.IsManger)
+			{
+				ViewBag.ShowManger = true;
+				ViewBag.ManagerId = EmployeeTask.Id;
+				employees = employees.Where(x => x.DepartmentId == EmployeeTask.DepartmentId && x.Id != EmployeeTask.Id).ToList();
+			}
+			ViewBag.employessDropdownlist = new SelectList(employees, "Id", "FirstName") ;
 				return View();
 		}
 
@@ -95,7 +115,7 @@ namespace AribTask.Controllers
 		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public IActionResult Create([Bind("Subject,Body,ManagerId,EmployeeId,Status,Id,CreationDate,UpdatedDate,CreationUserId,UpdatedUserId")] EmployeeTaskDto employeeTaskDto)
+		public IActionResult Create( EmployeeTaskDto employeeTaskDto)
 		{
 			try
 			{
@@ -104,8 +124,10 @@ namespace AribTask.Controllers
 					
 						EmployeeTask employeeTask = _Mapper.Map<EmployeeTask>(employeeTaskDto);
 						employeeTask.SetBasicData(CRUD_OperationType.Create);
-					
-						_EmployeeTaskRepo.Add(employeeTask);
+					employeeTask.Manager = _context.Employees.Find(employeeTask.ManagerId);
+					employeeTask.Employee = _context.Employees.Find(employeeTask.EmployeeId);
+
+					_EmployeeTaskRepo.Add(employeeTask);
 
 				
 				}
@@ -115,7 +137,7 @@ namespace AribTask.Controllers
 			{
 			}
 
-			return View(employeeTaskDto);
+			return RedirectToAction("Index");
 		}
 
 		// GET: EmployeeTask/Edit/5
@@ -133,8 +155,18 @@ namespace AribTask.Controllers
 					Value = ((int)g).ToString()
 				})
 				.ToList();
-
 			ViewBag.StatesList = Status;
+			ViewBag.ShowManger = false;
+			var employees = _context.Employees.ToList();
+
+			var currentUser = User.Identity.Name; // Get the username of the current user
+			var EmployeeTask = employees.FirstOrDefault(x => x.UserName != null && x.UserName.Trim() == currentUser.Trim());
+			if (EmployeeTask.IsManger)
+			{
+				ViewBag.ShowManger = true;
+				employees = employees.Where(x => x.DepartmentId == EmployeeTask.DepartmentId && x.Id != EmployeeTask.Id).ToList();
+			}
+			ViewBag.employessDropdownlist = new SelectList(employees, "Id", "FirstName");
 			EmployeeTask employeeTask = _EmployeeTaskRepo.GetById(id.Value);
 			if (employeeTask == null)
 			{
@@ -184,7 +216,8 @@ namespace AribTask.Controllers
 				{
 					EmployeeTask employeeTask = _Mapper.Map<EmployeeTask>(employeeTaskDto);
 					employeeTask.SetBasicData(CRUD_OperationType.Update);
-
+					employeeTask.Employee = _context.Employees.Find(employeeTask.ManagerId);
+					employeeTask.Employee = _context.Employees.Find(employeeTask.EmployeeId);
 					_EmployeeTaskRepo.Update(employeeTask);
 
 				}
@@ -198,7 +231,7 @@ namespace AribTask.Controllers
 			}
 
 
-			return View(employeeTaskDto);
+			return RedirectToAction("Index");
 		}
 
 		// GET: EmployeeTask/Delete/5

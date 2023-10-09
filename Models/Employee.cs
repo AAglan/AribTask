@@ -48,7 +48,10 @@ namespace AribTask.Models
     public virtual ICollection<EmployeeTask> EmployeeTasks { get; set; }
 
     // Navigation property to represent the department the employee belongs to
+    [ForeignKey("Department")]
     public int DepartmentId { get; set; }
+    public bool IsManger { get; set; }
+
     public virtual Department Department { get; set; }
     public Employee(){
 

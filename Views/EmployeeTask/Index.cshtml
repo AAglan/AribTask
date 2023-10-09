@@ -1,83 +1,74 @@
 ﻿@model IEnumerable<AribTask.ViewModel.EmployeeTaskDto>
-
+@using AribTask.Comman
 @{
-    ViewData["Title"] = "Index";
+	ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+	<a asp-action="Create">Create New</a>
 </p>
 <table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Subject)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Body)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ManagerId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EmployeeId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.CreationDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdatedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreationUserId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdatedUserId)
-            </th>*@
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subject)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Body)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ManagerId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmployeeId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.CreationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreationUserId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdatedUserId)
-            </td>*@
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Subject)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Body)
+			</th>
+
+			<th>
+				@Html.DisplayNameFor(model => model.Status)
+			</th>
+			@*<th>
+						@Html.DisplayNameFor(model => model.CreationDate)
+				</th>
+				<th>
+						@Html.DisplayNameFor(model => model.UpdatedDate)
+				</th>
+				<th>
+						@Html.DisplayNameFor(model => model.CreationUserId)
+				</th>
+				<th>
+						@Html.DisplayNameFor(model => model.UpdatedUserId)
+				</th>*@
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Subject)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Body)
+				</td>
+
+				<td>
+					@Enum.GetName(typeof(Status), item.Status)
+				</td>
+				@*<td>
+							@Html.DisplayFor(modelItem => item.CreationDate)
+					</td>
+					<td>
+							@Html.DisplayFor(modelItem => item.UpdatedDate)
+					</td>
+					<td>
+							@Html.DisplayFor(modelItem => item.CreationUserId)
+					</td>
+					<td>
+							@Html.DisplayFor(modelItem => item.UpdatedUserId)
+					</td>*@
+				<td>
+					<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+					<a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+					<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+				</td>
+			</tr>
+		}
+	</tbody>
 </table>

@@ -40,7 +40,7 @@ namespace AribTask.Controllers
 				var result = await userManager.CreateAsync(user, RegisterViewModel.Pwd);
 				if (result.Succeeded)
 				{
-					await _context.Employees.AddAsync(new Models.Employee() {UserId=user.Id,Email=user.Email,UserName=user.UserName });
+					await _context.Employees.AddAsync(new Models.Employee() {UserId=user.Id,Email=user.Email,UserName=user.UserName});
 					await signInManager.SignInAsync(user, isPersistent: false);
 					_context.SaveChanges();
 					return RedirectToAction("Index", "EmployeeTask");

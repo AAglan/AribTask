@@ -27,8 +27,11 @@ namespace AribTask.ViewModel
     public string UserName { get; set; }
    [DataType(DataType.Password)]
     public string Password { get; set; }
+    public string DepartmentName { get; set; }
+    public bool IsManger { get; set; }
 
     public EmployeeDto Manager { get; set; }
+    public DepartmentDto DepartmentDto { get; set; }
     public ICollection<EmployeeTaskDto> EmployeeTasks { get; set; }
   }
 }

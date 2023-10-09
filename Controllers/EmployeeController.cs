@@ -47,11 +47,13 @@ namespace AribTask.Controllers
 		{
 			try
 			{
-				var EmpTasks = _EmployeeRepo.GetAll();
-				var Model = _Mapper.Map<List<EmployeeDto>>(EmpTasks);
+				var Emps = _EmployeeRepo.GetAll();
+				var Depts = _DepartmentRepo.GetAll();
+				var Model = _Mapper.Map<List<EmployeeDto>>(Emps);
 				foreach (var employeeDto in Model)
 				{
 					employeeDto.ImageFileName = GetImageFilePath(employeeDto);
+					employeeDto.DepartmentName = Depts.FirstOrDefault(x => x.Id == employeeDto.DepartmentId)?.Name;
 				}
 				return View(Model);
 			}
@@ -105,6 +107,7 @@ namespace AribTask.Controllers
 
 					var user = new IdentityUser { UserName = employeeDto.UserName, Email = employeeDto.Email };
 					var result = await userManager.CreateAsync(user, employeeDto.Password);
+					employee.Department = _context.Departments.Find(employee.DepartmentId);
 					_EmployeeRepo.Add(employee);
 				}
 			}
@@ -113,7 +116,7 @@ namespace AribTask.Controllers
 				var xx = ex.ToString();
 			}
 
-			return View(employeeDto);
+			return RedirectToAction("Index");
 		}
 
 		// GET: Employee/Edit/5
@@ -162,7 +165,7 @@ namespace AribTask.Controllers
 					employee.ImageFile = uniqueFileName;
 					employee.ImageFileName = uniqueFileName;
 					employee.SetBasicData(CRUD_OperationType.Update);
-
+					employee.Department = _context.Departments.Find(employee.DepartmentId);
 					_EmployeeRepo.Update(employee);
 
 				}
@@ -176,7 +179,7 @@ namespace AribTask.Controllers
 			}
 
 
-			return View(employeeDto);
+			return RedirectToAction("Index");
 		}
 
 		// GET: Employee/Delete/5

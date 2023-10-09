@@ -33,7 +33,7 @@ namespace AribTask
 			services.AddDbContext<ApplicationDbContext>(options =>
 			 options.UseSqlServer(
 		 Configuration.GetConnectionString("DefaultConnection")));
-
+			
 			services.AddIdentity<IdentityUser, IdentityRole>(
 			options =>
 			{
@@ -47,6 +47,7 @@ namespace AribTask
 			services.AddSingleton<IWebHostEnvironment>(_webHostEnvironment);
 			services.AddScoped(typeof(IBaseRepo<>), typeof(BaseRepo<>));
 			services.AddAutoMapper(typeof(Startup));
+			
 
 		}
 

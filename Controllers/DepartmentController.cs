@@ -35,6 +35,7 @@ namespace AribTask.Controllers
 			{
 				var Department = _DepartmentRepo.GetAll();
 				var Model = _Mapper.Map<List<DepartmentDto>>(Department);
+
 				return View(Model);
 			}
 			catch (Exception)
