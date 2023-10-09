@@ -21,5 +21,9 @@ namespace AribTask.Models
         [ForeignKey("Manager")]
         public int ManagerId { get; set; }
         public Employee Manager { get; set; }
+    public EmployeeTask() {
+      Manager = new Employee();
+      Employee = new Employee();
+    }
     }
 }
