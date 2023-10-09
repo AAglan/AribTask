@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 namespace AribTask.Comman
 {
 
-    public enum TaskStatus
+    public enum Status
     {
-        delevired,
-        completed
-    }
+    NewTask = 0,
+    InProgress,
+    idleTask,
+    Completed,
+  }
     public enum Roles
     {
         Admin,

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,6 +11,7 @@ using AribTask.Service;
 using AribTask.Models;
 using AutoMapper;
 using AribTask.Comman;
+using Microsoft.AspNetCore.Identity;
 
 namespace AribTask.Controllers
 {
@@ -18,13 +19,19 @@ namespace AribTask.Controllers
 	{
 		private readonly ApplicationDbContext _context;
 		private readonly IBaseRepo<EmployeeTask> _EmployeeTaskRepo;
+		private readonly IBaseRepo<Employee> _EmployeeRepo;
 		private readonly IMapper _Mapper;
+		private readonly UserManager<IdentityUser> userManager;
+		private readonly UserManager<IdentityUser> _userManager;
 
-		public EmployeeTaskController(ApplicationDbContext context, IBaseRepo<EmployeeTask> employeeTaskRepo, IMapper mapper)
+		public EmployeeTaskController(ApplicationDbContext context, IBaseRepo<EmployeeTask> employeeTaskRepo, IMapper mapper, IBaseRepo<Employee> _EmployeeRepo, UserManager<IdentityUser> userManager, UserManager<IdentityUser> _userManager)
 		{
 			_context = context;
 			_EmployeeTaskRepo = employeeTaskRepo;
 			_Mapper = mapper;
+			_EmployeeRepo = _EmployeeRepo;
+			userManager = userManager;
+			_userManager = _userManager;
 		}
 
 		// GET: EmployeeTask
@@ -67,7 +74,20 @@ namespace AribTask.Controllers
 		// GET: EmployeeTask/Create
 		public IActionResult Create()
 		{
-			return View();
+			var Status = Enum.GetValues(typeof(Status))
+						.Cast<Status>()
+						.Select(g => new SelectListItem
+						{
+							Text = g.ToString(),
+							Value = ((int)g).ToString()
+						})
+						.ToList();
+		
+			ViewBag.StatesList = Status;
+			
+
+		
+				return View();
 		}
 
 		// POST: EmployeeTask/Create
@@ -84,7 +104,7 @@ namespace AribTask.Controllers
 					
 						EmployeeTask employeeTask = _Mapper.Map<EmployeeTask>(employeeTaskDto);
 						employeeTask.SetBasicData(CRUD_OperationType.Create);
-
+					
 						_EmployeeTaskRepo.Add(employeeTask);
 
 				
@@ -105,6 +125,16 @@ namespace AribTask.Controllers
 			{
 				return NotFound();
 			}
+			var Status = Enum.GetValues(typeof(Status))
+				.Cast<Status>()
+				.Select(g => new SelectListItem
+				{
+					Text = g.ToString(),
+					Value = ((int)g).ToString()
+				})
+				.ToList();
+
+			ViewBag.StatesList = Status;
 			EmployeeTask employeeTask = _EmployeeTaskRepo.GetById(id.Value);
 			if (employeeTask == null)
 			{
