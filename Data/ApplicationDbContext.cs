@@ -1,7 +1,7 @@
 ﻿using AribTask.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using AribTask.ViewModel;
+using AribTask.ViewModels;
 
 namespace AribTask.Data
 {

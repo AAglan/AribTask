@@ -91,16 +91,6 @@ namespace AribTask.Controllers
 		}
 
 
-
-
-
-
-
-
-
-
-
-
 		// GET: AccountController/Details/5
 		public ActionResult Details(int id)
 		{

@@ -13,8 +13,6 @@ namespace AribTask.Service
 		void Add(T entity);
 		void Update(T entity);
 		int Delete(T entity);
-		List<T> GetAllWithInclude(string[] includes = null);
-		int GetLastCode(Expression<Func<T, object>> orderBy = null);
-		//bool IsExistRecord(Expression<Func<T, bool>> condetion = null);
+		
 	}
 }

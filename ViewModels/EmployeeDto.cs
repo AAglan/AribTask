@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
-namespace AribTask.ViewModel
+namespace AribTask.ViewModels
 {
 	public class EmployeeDto:BasicModel
 	{

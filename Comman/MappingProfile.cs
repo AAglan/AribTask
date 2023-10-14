@@ -1,5 +1,5 @@
 ﻿using AribTask.Models;
-using AribTask.ViewModel;
+using AribTask.ViewModels;
 using AutoMapper;
 using System;
 using System.Collections.Generic;

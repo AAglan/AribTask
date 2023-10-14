@@ -163,7 +163,7 @@ namespace AribTask.Data.Migrations
                     b.ToTable("EmployeesDepartments");
                 });
 
-            modelBuilder.Entity("AribTask.ViewModel.EmployeeDto", b =>
+            modelBuilder.Entity("AribTask.ViewModels.EmployeeDto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -207,7 +207,7 @@ namespace AribTask.Data.Migrations
                     b.ToTable("EmployeeDto");
                 });
 
-            modelBuilder.Entity("AribTask.ViewModel.EmployeeTaskDto", b =>
+            modelBuilder.Entity("AribTask.ViewModels.EmployeeTaskDto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -506,18 +506,18 @@ namespace AribTask.Data.Migrations
                     b.Navigation("Manager");
                 });
 
-            modelBuilder.Entity("AribTask.ViewModel.EmployeeDto", b =>
+            modelBuilder.Entity("AribTask.ViewModels.EmployeeDto", b =>
                 {
-                    b.HasOne("AribTask.ViewModel.EmployeeDto", "Manager")
+                    b.HasOne("AribTask.ViewModels.EmployeeDto", "Manager")
                         .WithMany()
                         .HasForeignKey("ManagerId");
 
                     b.Navigation("Manager");
                 });
 
-            modelBuilder.Entity("AribTask.ViewModel.EmployeeTaskDto", b =>
+            modelBuilder.Entity("AribTask.ViewModels.EmployeeTaskDto", b =>
                 {
-                    b.HasOne("AribTask.ViewModel.EmployeeDto", null)
+                    b.HasOne("AribTask.ViewModels.EmployeeDto", null)
                         .WithMany("EmployeeTasks")
                         .HasForeignKey("EmployeeDtoId");
                 });
@@ -583,7 +583,7 @@ namespace AribTask.Data.Migrations
                     b.Navigation("EmployeeTasks");
                 });
 
-            modelBuilder.Entity("AribTask.ViewModel.EmployeeDto", b =>
+            modelBuilder.Entity("AribTask.ViewModels.EmployeeDto", b =>
                 {
                     b.Navigation("EmployeeTasks");
                 });

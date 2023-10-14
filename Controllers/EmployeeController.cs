@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AribTask.Data;
-using AribTask.ViewModel;
+using AribTask.ViewModels;
 using AribTask.Service;
 using AribTask.Models;
 using AutoMapper;
@@ -81,7 +81,7 @@ namespace AribTask.Controllers
 
 		// GET: Employee/Create
 		public IActionResult Create()
-		{
+		{	
 			var employees = _EmployeeRepo.GetAll();
 			var departments = _DepartmentRepo.GetAll();
 			ViewBag.ManagerId = new SelectList(employees, "Id", "FirstName",null);
@@ -241,9 +241,6 @@ namespace AribTask.Controllers
 
 			return null;
 		}
-		//private bool EmployeeDtoExists(int id)
-		//{
-		//	return _context.EmployeeDto.Any(e => e.Id == id);
-		//}
+		
 	}
 }

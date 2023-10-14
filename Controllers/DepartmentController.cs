@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AribTask.Data;
-using AribTask.ViewModel;
+using AribTask.ViewModels;
 using AribTask.Service;
 using AribTask.Models;
 using AutoMapper;
@@ -177,10 +177,5 @@ namespace AribTask.Controllers
 
 			return RedirectToAction(nameof(Index));
 		}
-
-		//private bool DepartmentDtoExists(int id)
-		//{
-		//	return _context.DepartmentDto.Any(e => e.Id == id);
-		//}
 	}
 }

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AribTask.Data;
-using AribTask.ViewModel;
+using AribTask.ViewModels;
 using AribTask.Service;
 using AribTask.Models;
 using AutoMapper;
@@ -65,14 +65,6 @@ namespace AribTask.Controllers
 			{
 				return NotFound();
 			}
-
-			//var employeeTaskDto = await _context.EmployeeTaskDto
-			//		.FirstOrDefaultAsync(m => m.Id == id);
-			//if (employeeTaskDto == null)
-			//{
-			//	return NotFound();
-			//}
-			//return View(employeeTaskDto);
 
 			EmployeeTask employeeTask = _EmployeeTaskRepo.GetById(id.Value);
 			EmployeeTaskDto Model = _Mapper.Map<EmployeeTaskDto>(employeeTask);
@@ -189,27 +181,6 @@ namespace AribTask.Controllers
 				return NotFound();
 			}
 
-			//if (ModelState.IsValid)
-			//{
-			//	try
-			//	{
-			//		_context.Update(employeeTaskDto);
-			//		await _context.SaveChangesAsync();
-			//	}
-			//	catch (DbUpdateConcurrencyException)
-			//	{
-			//		if (!EmployeeTaskDtoExists(employeeTaskDto.Id))
-			//		{
-			//			return NotFound();
-			//		}
-			//		else
-			//		{
-			//			throw;
-			//		}
-			//	}
-			//	return RedirectToAction(nameof(Index));
-			//}
-			//return View(employeeTaskDto);
 			try
 			{
 				if (ModelState.IsValid)
@@ -263,9 +234,5 @@ namespace AribTask.Controllers
 			return RedirectToAction(nameof(Index));
 		}
 
-		//private bool EmployeeTaskDtoExists(int id)
-		//{
-		//	return _context.EmployeeTaskDto.Any(e => e.Id == id);
-		//}
 	}
 }

@@ -34,20 +34,6 @@ namespace AribTask.Service
 
     }
 
-    public List<T> GetAllWithInclude(string[] includes = null)
-    {
-      IQueryable<T> query = _context.Set<T>();
-      if (includes != null)
-      {
-        foreach (var item in includes)
-        {
-          query = query.Include(item);
-        }
-      }
-      return query.ToList();
-
-    }
-
     public T GetById(int Id)
     {
       return _context.Set<T>().Find(Id);
@@ -60,31 +46,7 @@ namespace AribTask.Service
       _context.SaveChanges();
 
     }
-    public int GetLastCode(Expression<Func<T, object>> orderBy = null)
-    {
-      int LastCode = 0;
-      IQueryable<T> query = _context.Set<T>();
-      var LastRecord = query.OrderBy(orderBy).LastOrDefault();
-      if (LastRecord != null)
-      {
-        LastCode = (int)LastRecord.GetType().GetProperty("Code").GetValue(LastRecord) + 1;
-      }
-      else
-      {
-        LastCode = 1;
-      }
-      return LastCode;
-    }
-    //public bool IsExistRecord(Expression<Func<T, bool>> condetion = null)
-    //{
-    //  bool IsExist = false;
-    //  IQueryable<T> query = _context.Set<T>();
-    //  var Record = query.Where(condetion).FirstOrDefault();
-    //  if (Record != null)
-    //  {
-    //    IsExist = true;
-    //  }
-    //  return IsExist;
-    //}
+ 
+
   }
 }
